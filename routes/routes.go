@@ -7,15 +7,18 @@ import (
 )
 
 func InitRoutes(
+	oauthHandler *handlers.OauthHandler,
 	authHandler *handlers.AuthHandler,
 ) *gin.Engine {
 	r := gin.Default()
 
 	r.Use(middlewares.Recovery())
 
-	publicApi := r.Group("/api")
+	web := r.Group("")
+	api := r.Group("/api")
 
-	initAuthRoutes(publicApi, authHandler)
+	initOauthRoutes(web, oauthHandler)
+	initAuthRoutes(api, authHandler)
 
 	return r
 }

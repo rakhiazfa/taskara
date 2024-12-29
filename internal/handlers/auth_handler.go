@@ -10,39 +10,47 @@ import (
 )
 
 type AuthHandler struct {
-	validator   *utils.Validator
 	authService *services.AuthService
 }
 
 func NewAuthHandler(validator *utils.Validator, authService *services.AuthService) *AuthHandler {
 	return &AuthHandler{
-		validator:   validator,
 		authService: authService,
 	}
 }
 
-func (handler *AuthHandler) SignIn(c *gin.Context) {
-	var req models.SignInReq
-
+func (h *AuthHandler) SignUp(c *gin.Context) {
+	var req models.SignUpReq
 	utils.PanicIfErr(c.ShouldBind(&req))
-	utils.PanicIfErr(handler.validator.Validate(req))
 
-	token := handler.authService.SignIn(req)
+	_, err := h.authService.SignUp(c.Request.Context(), &req)
+	utils.PanicIfErr(err)
+
+	c.JSON(http.StatusCreated, gin.H{
+		"message": "Successfully create a new account",
+	})
+}
+
+func (h *AuthHandler) SignIn(c *gin.Context) {
+	var req models.SignInReq
+	utils.PanicIfErr(c.ShouldBind(&req))
+
+	token, err := h.authService.SignIn(c.Request.Context(), &req)
+	utils.PanicIfErr(err)
 
 	c.JSON(http.StatusOK, gin.H{
 		"token": token,
 	})
 }
 
-func (handler *AuthHandler) SignUp(c *gin.Context) {
-	var req models.SignUpReq
-
+func (h *AuthHandler) ResetPassword(c *gin.Context) {
+	var req models.ResetPasswordReq
 	utils.PanicIfErr(c.ShouldBind(&req))
-	utils.PanicIfErr(handler.validator.Validate(req))
 
-	handler.authService.SignUp(req)
+	err := h.authService.ResetPassword(c.Request.Context(), &req)
+	utils.PanicIfErr(err)
 
-	c.JSON(http.StatusCreated, gin.H{
-		"message": "Successfully created a new account.",
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Reset password successfully",
 	})
 }

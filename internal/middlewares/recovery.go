@@ -2,7 +2,9 @@ package middlewares
 
 import (
 	"errors"
+	"log"
 	"net/http"
+	"runtime"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -18,9 +20,14 @@ func Recovery() gin.HandlerFunc {
 					handleHttpError(c, err)
 					return
 				default:
+					stackTrace := make([]byte, 1024)
+					runtime.Stack(stackTrace, false)
+
+					log.Println(string(stackTrace))
+
 					c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
-						"message": "Internal Server Error",
-						"error":   err.(error).Error(),
+						"error":   "Internal Server Error",
+						"message": err.(error).Error(),
 					})
 				}
 			}
@@ -35,8 +42,7 @@ func handleHttpError(c *gin.Context, err *utils.HttpError) {
 
 	if errors.As(err.Reason, &validationErrors) {
 		c.AbortWithStatusJSON(err.StatusCode, gin.H{
-			"message": err.Message,
-			"errors":  utils.FormatValidationErrors(validationErrors),
+			"errors": utils.FormatValidationErrors(validationErrors),
 		})
 	} else {
 		c.AbortWithStatusJSON(err.StatusCode, gin.H{

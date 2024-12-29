@@ -2,7 +2,8 @@
   "application": {
     "name": "Gin Boilerplate",
     "host": "127.0.0.1",
-    "port": 8080
+    "port": 8080,
+    "timezone": "UTC"
   },
   "database": {
     "host": "127.0.0.1",
@@ -10,5 +11,12 @@
     "name": "gin_boilerplate",
     "username": "postgres",
     "password": "postgres"
-  }
+  },
+  "google": {
+    "client_id": "",
+    "client_secret": "",
+    "redirect_uri": "http://127.0.0.1:8080/oauth/callback/google",
+    "state": ""
+  },
+  "frontend_url": "http://127.0.0.1:3000"
 }
