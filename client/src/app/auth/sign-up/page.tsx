@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export default async function SignUp() {
   return (
     <main>
-      <section className="app-container min-h-[500px] sm:min-h-[600px] flex justify-center items-center">
+      <section className="app-container min-h-[500px] sm:min-h-[600px] flex justify-center items-center py-6">
         <Card className="w-[400px]">
           <CardHeader>
             <CardTitle>Create new account</CardTitle>
