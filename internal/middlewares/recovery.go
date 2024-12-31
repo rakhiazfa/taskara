@@ -19,6 +19,9 @@ func Recovery() gin.HandlerFunc {
 				case *utils.HttpError:
 					handleHttpError(c, err)
 					return
+				case *utils.UniqueFieldError:
+					handleUniqueFieldError(c, err)
+					return
 				default:
 					stackTrace := make([]byte, 1024)
 					runtime.Stack(stackTrace, false)
@@ -49,4 +52,11 @@ func handleHttpError(c *gin.Context, err *utils.HttpError) {
 			"message": err.Message,
 		})
 	}
+}
+
+func handleUniqueFieldError(c *gin.Context, err *utils.UniqueFieldError) {
+	c.AbortWithStatusJSON(err.StatusCode, gin.H{
+		"field":   err.Field,
+		"message": err.Message,
+	})
 }

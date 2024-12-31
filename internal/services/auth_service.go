@@ -54,7 +54,7 @@ func (s *AuthService) SignUp(ctx context.Context, req *models.SignUpReq) (*entit
 	}
 
 	if userWithSameEmail != nil {
-		return nil, utils.NewHttpError(http.StatusConflict, "An account with this email already exists", nil)
+		return nil, utils.NewUniqueFieldError("email", "An account with this email already exists", nil)
 	}
 
 	var user entities.User

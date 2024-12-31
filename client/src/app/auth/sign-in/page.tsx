@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 
-import { SignInForm } from "@/components/sign-in";
+import { SignInForm } from "@/components/sign-in/sign-in-form";
 import { Button } from "@/components/ui/button";
 import {
   Card,

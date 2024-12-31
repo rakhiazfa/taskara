@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import { ResetPasswordForm } from "@/components/reset-password";
+import { ResetPasswordForm } from "@/components/reset-password/reset-password-form";
 import {
   Card,
   CardContent,

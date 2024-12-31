@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import { Footer } from "@/components/ui/footer";
+import { Toaster } from "@/components/ui/toaster";
 
 import Providers from "./providers";
 
@@ -31,8 +32,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable}`}>
+      <body className={`${inter.className}`}>
         <Providers>{children}</Providers>
+        <Toaster />
         <Footer />
       </body>
     </html>
